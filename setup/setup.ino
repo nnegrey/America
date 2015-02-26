@@ -8,6 +8,7 @@
  * 7) Music
  * Center Peg - Last 5 minutes 
  */
+ #include <Robot.h>
 
 void setup() {
   initialMovement();
@@ -24,10 +25,7 @@ void loop() {
  */
 void initialMovement() {
   // Get to the middle line
-  while(getSensorData()) {
-    Robot.motorsWrite(255, 255); //Make the robot go forward, full speed
-  }
-  Robot.motorsWrite(0, 0);
+  mainMovementLoop(255, 255);
 
   // Rotate toward the horizontal rings (to the right)
   Robot.motorsWrite(255, -255);//Make the robot rotate right, full speed
@@ -48,10 +46,7 @@ void initialMovement() {
  */
 void getRingsMovement() {
   // Move to the horizontal line (before the horizontal rings)
-  while(getSensorData()) {
-    Robot.motorsWrite(255, 255);
-  }
-  Robot.motorsWrite(0, 0);
+  mainMovementLoop(255, 255);
 
   // Confirm that the arm is at a height of 6 inches.
   lowerTheArm();
@@ -82,10 +77,7 @@ void getRingsMovement() {
  */
 void placeRingsMovement() {
   // Full reverse until at the center line
-  while(getSensorData()) {
-    Robot.motorsWrite(-255, -255);
-  }
-  Robot.motorsWrite(0, 0);
+  mainMovementLoop(-255, -255);
 
   // Rotate 180 degrees
   Robot.motorsWrite(255, -255);
@@ -93,10 +85,7 @@ void placeRingsMovement() {
   Robot.motorsWrite(0, 0);
 
   // Move to the horizontal line (before the vertical rings)
-  while(getSensorData()) {
-    Robot.motorsWrite(255, 255);
-  }
-  Robot.motorsWrite(0, 0);
+  mainMovementLoop(255, 255);
 
   // raiseTheArm()
   raiseTheArm();
@@ -110,10 +99,7 @@ void placeRingsMovement() {
   placeRings();
 
   // returnToMidLine
-  while(getSensorData()) {
-    Robot.motorsWrite(-255, -255);
-  }
-  Robot.motorsWrite(0, 0);
+  mainMovementLoop(-255, -255);
 
   // rotate 180 degrees
   Robot.motorsWrite(255, -255);
@@ -124,3 +110,10 @@ void placeRingsMovement() {
   getRingsMovement();
 }
 
+
+void mainMovementLoop(leftMotor, rightMotor) {
+  while(getSensorData()) {
+    Robot.motorsWrite(leftMotor, rightMotor); //Make the robot go forward, full speed
+  }
+  Robot.motorsWrite(0, 0);
+}
