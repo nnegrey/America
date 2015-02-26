@@ -1,8 +1,8 @@
 # America
-Roborodentia tournament2015
-team: OK
-bot: America
-Teammates
+Roborodentia tournament 2015
+Team: OK
+Bot: America
+Teammates:
 -Noah Negrey
 -Gabriel Hernandez
 -Ryan Takatsuka
