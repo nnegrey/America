@@ -10,7 +10,7 @@
  */
 
 void setup() {
-
+  initialMovement();
 }
 
 
@@ -23,7 +23,19 @@ void loop() {
  * -Rotate toward the horizontal rings (to the right)
  */
 void initialMovement() {
-  
+  // Get to the middle line
+  while(getSensorData()) {
+    Robot.motorsWrite(255, 255); //Make the robot go forward, full speed
+  }
+  Robot.motorsWrite(0, 0);
+
+  // Rotate toward the horizontal rings (to the right)
+  Robot.motorsWrite(255, -255);//Make the robot rotate right, full speed
+  delay(1000); // determine how long it takes to turn 90 degrees to the right
+  Robot.motorsWrite(0, 0);
+
+  alignSensors();
+  getRingsMovement();
 }
 
 
@@ -32,17 +44,35 @@ void initialMovement() {
  * -Confirm that the arm is at a height of 6 inches. (create lowerTheArm()
  * -Move toward the wall
  * -pickupRings()
- * -placeRings()
+ * -placeRingsMovement()
  */
 void getRingsMovement() {
-  
+  // Move to the horizontal line (before the horizontal rings)
+  while(getSensorData()) {
+    Robot.motorsWrite(255, 255);
+  }
+  Robot.motorsWrite(0, 0);
+
+  // Confirm that the arm is at a height of 6 inches.
+  lowerTheArm();
+
+  // Move toward the wall
+  Robot.motorsWrite(255, 255);
+  delay(1000);
+  Robot.motorsWrite(0, 0);
+
+  // pickupRings()
+  pickupRings();
+
+  // placeRingsMovement()
+  placeRingsMovement();
 }
 
 
 /** Move To The Middle With The Rings and Place Them
  * -Full reverse until at the center line
  * -Rotate 180 degrees
- * -Moe to the horizontal line (before the vertical rings)
+ * -Move to the horizontal line (before the vertical rings)
  * -raiseTheArm()
  * -Move toward the wall
  * -placeRings()
@@ -50,7 +80,47 @@ void getRingsMovement() {
  * -rotate 180 degrees
  * -getRingsMovement()
  */
-void placeRings() {
-  
+void placeRingsMovement() {
+  // Full reverse until at the center line
+  while(getSensorData()) {
+    Robot.motorsWrite(-255, -255);
+  }
+  Robot.motorsWrite(0, 0);
+
+  // Rotate 180 degrees
+  Robot.motorsWrite(255, -255);
+  delay(1000);
+  Robot.motorsWrite(0, 0);
+
+  // Move to the horizontal line (before the vertical rings)
+  while(getSensorData()) {
+    Robot.motorsWrite(255, 255);
+  }
+  Robot.motorsWrite(0, 0);
+
+  // raiseTheArm()
+  raiseTheArm();
+
+  // Move toward the wall
+  Robot.motorsWrite(255, 255);
+  delay(1000);
+  Robot.motorsWrite(0, 0);
+
+  // placeRings()
+  placeRings();
+
+  // returnToMidLine
+  while(getSensorData()) {
+    Robot.motorsWrite(-255, -255);
+  }
+  Robot.motorsWrite(0, 0);
+
+  // rotate 180 degrees
+  Robot.motorsWrite(255, -255);
+  delay(1000);
+  Robot.motorsWrite(0, 0);
+
+  // getRingsMovement()
+  getRingsMovement();
 }
 
